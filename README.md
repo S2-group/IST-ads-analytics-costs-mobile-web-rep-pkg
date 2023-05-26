@@ -1,6 +1,4 @@
-# 50-Shades-of-Green
-For more information on how to used androidrunner please visit the offical github page.
-https://github.com/S2-group/android-runner
+# Replication package: Performance and Energy Costs of Ads and Analytics in Mobile Web Apps
 
 ## Subject Selection
 Within the folder "subject-selection" you will find the following script:
