@@ -1089,3 +1089,27 @@ opera_fplt_full_vs_noads_res <- cliff.delta(experiment_complete_data[which(exper
                                             experiment_complete_data[which(experiment_complete_data$browser == "opera" &experiment_complete_data$type=="noads"), ]$payload_normalized, return.dm=TRUE)
 opera_fplt_full_vs_noanalytics_res <- cliff.delta(experiment_complete_data[which(experiment_complete_data$browser == "opera" &experiment_complete_data$type=="full"), ]$payload_normalized,
                                                   experiment_complete_data[which(experiment_complete_data$browser == "opera" &experiment_complete_data$type=="noanalytics"), ]$payload_normalized, return.dm=TRUE)
+
+#=========================================================
+#=================== App-by-app analysis =================
+#=========================================================
+
+data <- experiment_complete_data
+# chrome_data <- subset(experiment_complete_data, browser=="chrome")
+data$subject <- as.factor(str_remove(data$subject, '-full'))
+data$subject <- as.factor(str_remove(data$subject, '-noads'))
+data$subject <- as.factor(str_remove(data$subject, '-noad'))
+data$subject <- as.factor(str_remove(data$subject, '-noanalytics'))
+
+max_energy <- max(data$Joule_calculated)
+max_fcp <- max(data$fcp)
+max_fplt <- max(data$V1)
+
+for (app_name in levels(data$subject)) {
+  par(las = 2)
+  jpeg(file=paste(app_name, ".jpeg", sep=""), width=800, height=350)
+  boxplot(Joule_calculated ~ type + browser, data=subset(data, subject==app_name), main=paste(c('Energy -', app_name)), ylim=c(0, max_energy))
+  boxplot(fcp ~ type + browser, data=subset(data, subject==app_name), main=paste(c('FCP -', app_name)), ylim=c(0, max_fcp))
+  boxplot(V1 ~ type + browser, data=subset(data, subject==app_name), main=paste(c('FPLT -', app_name)), ylim=c(0, max_fplt))
+  dev.off()
+}

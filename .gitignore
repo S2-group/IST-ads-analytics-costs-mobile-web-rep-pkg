@@ -109,6 +109,8 @@ examples/logs
 AndroidRunner/Plugins/monsoon/script/monsoon_config.csv
 
 .vscode
+.RData
+.Rhistory
 
 !com.quicinc.trepn.apk
 
