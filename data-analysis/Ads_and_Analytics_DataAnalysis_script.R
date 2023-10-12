@@ -1095,7 +1095,6 @@ opera_fplt_full_vs_noanalytics_res <- cliff.delta(experiment_complete_data[which
 #=========================================================
 
 data <- experiment_complete_data
-# chrome_data <- subset(experiment_complete_data, browser=="chrome")
 data$subject <- as.factor(str_remove(data$subject, '-full'))
 data$subject <- as.factor(str_remove(data$subject, '-noads'))
 data$subject <- as.factor(str_remove(data$subject, '-noad'))
@@ -1107,9 +1106,13 @@ max_fplt <- max(data$V1)
 
 for (app_name in levels(data$subject)) {
   par(las = 2)
-  jpeg(file=paste(app_name, ".jpeg", sep=""), width=800, height=350)
-  boxplot(Joule_calculated ~ type + browser, data=subset(data, subject==app_name), main=paste(c('Energy -', app_name)), ylim=c(0, max_energy))
-  boxplot(fcp ~ type + browser, data=subset(data, subject==app_name), main=paste(c('FCP -', app_name)), ylim=c(0, max_fcp))
-  boxplot(V1 ~ type + browser, data=subset(data, subject==app_name), main=paste(c('FPLT -', app_name)), ylim=c(0, max_fplt))
+  jpeg(file=paste("plots/per_subject/energy_", app_name, ".jpeg", sep=""), width=1000, height=400)
+  boxplot(Joule_calculated ~ type + browser, data=subset(data, subject==app_name), main=paste(c('Energy -', app_name)), ylim=c(0, max_energy), ylab="Energy (Joules)")
+  dev.off()
+  jpeg(file=paste("plots/per_subject/fcp_", app_name, ".jpeg", sep=""), width=1000, height=400)
+  boxplot(fcp ~ type + browser, data=subset(data, subject==app_name), main=paste(c('FCP -', app_name)), ylim=c(0, max_fcp), ylab="FCP (ms)")
+  dev.off()
+  jpeg(file=paste("plots/per_subject/fplt_", app_name, ".jpeg", sep=""), width=1000, height=400)
+  boxplot(V1 ~ type + browser, data=subset(data, subject==app_name), main=paste(c('FPLT -', app_name)), ylim=c(0, max_fplt), ylab="FPLT (ms)")
   dev.off()
 }
